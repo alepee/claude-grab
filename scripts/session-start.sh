@@ -2,6 +2,7 @@
 # SessionStart hook: inject the grab link instruction when the grab:
 # URI handler is installed; otherwise hint at /grab:setup.
 set -uo pipefail
+: "${CLAUDE_PLUGIN_ROOT:?CLAUDE_PLUGIN_ROOT must be set}"
 
 installed=false
 case "$(uname -s)" in
@@ -14,7 +15,7 @@ case "$(uname -s)" in
 esac
 
 if [ "$installed" = true ]; then
-  context="$(cat "${CLAUDE_PLUGIN_ROOT}/instruction.md")"
+  context="$(cat "${CLAUDE_PLUGIN_ROOT}/instruction.md")" || exit 1
 else
   context="grab plugin: the grab: URI handler is not installed on this machine, so click-to-copy links are disabled. If the user wants them, suggest running /grab:setup once."
 fi
