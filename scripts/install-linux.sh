@@ -8,9 +8,10 @@ HANDLER_DIR="$HOME/.local/share/grab"
 APPS_DIR="$HOME/.local/share/applications"
 DESKTOP="$APPS_DIR/grab-handler.desktop"
 
-if ! command -v wl-copy >/dev/null 2>&1 && ! command -v xclip >/dev/null 2>&1; then
-  echo "error: need wl-copy (Wayland) or xclip (X11) installed." >&2
-  exit 1
+if [ -n "${WAYLAND_DISPLAY:-}" ]; then
+  command -v wl-copy >/dev/null 2>&1 || { echo "error: Wayland session detected, need wl-copy installed." >&2; exit 1; }
+else
+  command -v xclip >/dev/null 2>&1 || { echo "error: X11 session detected, need xclip installed." >&2; exit 1; }
 fi
 
 mkdir -p "$HANDLER_DIR" "$APPS_DIR"
@@ -20,7 +21,7 @@ cat > "$DESKTOP" <<EOF
 [Desktop Entry]
 Type=Application
 Name=Grab URI Handler
-Exec=python3 $HANDLER_DIR/grab_handler.py %u
+Exec=python3 "$HANDLER_DIR/grab_handler.py" %u
 MimeType=x-scheme-handler/grab;
 NoDisplay=true
 EOF
@@ -32,4 +33,4 @@ fi
 
 echo "Installed $DESKTOP and registered the grab: scheme."
 echo "Self-test: opening grab:test%20ok — paste somewhere to verify the clipboard contains 'test ok'."
-xdg-open "grab:test%20ok"
+xdg-open "grab:test%20ok" || echo "warning: self-test failed (no display?). Run: xdg-open 'grab:test%20ok' from a desktop session." >&2
