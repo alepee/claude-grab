@@ -56,7 +56,9 @@ If absent → injects a single line: "grab: handler not installed, run /grab:set
 
 > When you produce content the user will likely want to copy verbatim — a command to run, a code snippet, a draft message (Slack, email), text to paste elsewhere — append right after it a link `[📋](grab:<payload>)`. One link per copyable block. The payload must be the exact displayed content, no added decoration, percent-encoded aggressively: every character outside `[A-Za-z0-9._~-]` becomes `%XX`.
 >
-> If the content exceeds ~1500 characters: write it to `/tmp/grab/<name>.txt` instead, and emit `[📋](grab:file=<percent-encoded path>)`.
+> If the content exceeds ~1500 characters: write it to `/tmp/grab/<session-id>-<n>.txt` instead (where `<session-id>` is given below and `<n>` increments per file in this session), and emit `[📋](grab:file=<percent-encoded path>)`.
+
+The hook receives the `session_id` in its stdin JSON and interpolates it into the instruction, so filenames are collision-free across sessions without Claude needing a clock.
 
 Aggressive encoding is what makes spaces, newlines, and quotes survive the URI round-trip.
 
@@ -96,7 +98,7 @@ After uninstall, the SessionStart hook naturally falls back to the "handler not 
 
 **Inline (nominal, content ≤ ~1500 chars):** `grab:<percent-encoded content>` — handler decodes and copies.
 
-**File fallback (large content):** Claude writes the content to `/tmp/grab/<name>.txt`, then emits `[📋](grab:file=<percent-encoded path>)`. The handler recognizes the `file=` prefix, reads the file, pipes its content to the clipboard. Tiny URI, unbounded payload, click stays the trigger (no unsolicited clipboard overwrite).
+**File fallback (large content):** Claude writes the content to `/tmp/grab/<session-id>-<n>.txt`, then emits `[📋](grab:file=<percent-encoded path>)`. The handler recognizes the `file=` prefix, reads the file, pipes its content to the clipboard. Tiny URI, unbounded payload, click stays the trigger (no unsolicited clipboard overwrite).
 
 - **No ambiguity:** aggressive encoding turns any inline `=` into `%3D`, so a raw `file=` prefix can only be a path reference.
 - **Security:** the handler only accepts paths under `/tmp/grab/` (and `$TMPDIR/grab/` on macOS). Anything else is rejected. Prevents a malicious `grab:file=` link from siphoning arbitrary readable files into the clipboard.
