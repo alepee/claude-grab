@@ -10,6 +10,8 @@ LSREGISTER="/System/Library/Frameworks/CoreServices.framework/Frameworks/LaunchS
 mkdir -p "$HOME/Applications"
 rm -rf "$APP"
 
+# /usr/bin/python3 is intentional: the GUI-launched applet gets a minimal
+# PATH, so a bare `python3` would not resolve reliably.
 osacompile -o "$APP" <<'APPLESCRIPT'
 on open location theURL
 	set appPath to POSIX path of (path to me)
