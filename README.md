@@ -2,9 +2,9 @@
 
 ![grab banner](assets/banner.png)
 
-Click-to-copy 📋 links in Claude Code.
+Click-to-copy `[Grab this]` links in Claude Code.
 
-Tired of fighting soft-wrap and the gutter to copy a command from Claude's output? `grab` makes Claude append a clickable 📋 link after every copyable block (commands, code snippets, draft messages). Clicking it puts the exact content in your clipboard.
+Tired of fighting soft-wrap and the gutter to copy a command from Claude's output? `grab` makes Claude append a clickable `[Grab this]` link after every copyable block (commands, code snippets, draft messages). Clicking it puts the exact content in your clipboard.
 
 Based on a hack by Guillaume Rams: OSC 8 hyperlinks + a custom `grab:` URI scheme handled at the OS level.
 
@@ -24,7 +24,7 @@ To remove everything: `/grab:uninstall`.
 
 ## How it works
 
-- A SessionStart hook detects the handler and instructs Claude to append `[📋](grab:<percent-encoded content>)` after copyable blocks.
+- A SessionStart hook detects the handler and instructs Claude to append `[Grab this](grab:<percent-encoded content>)` after copyable blocks.
 - Clicking the link hands the URI to `grab_handler.py`, which decodes the payload and pipes it to `pbcopy` / `wl-copy` / `xclip`.
 - Content over ~1500 characters goes through a temp file: Claude writes `/tmp/grab/<mktemp>` and links `grab:file=<path>`; the handler reads the file. Paths are restricted to `/tmp/grab/` (and `$TMPDIR/grab/`).
 
