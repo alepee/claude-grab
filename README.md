@@ -7,7 +7,7 @@ Based on a hack by Guillaume Rams: OSC 8 hyperlinks + a custom `grab:` URI schem
 ## Requirements
 
 - macOS or Linux (Windows not supported).
-- A terminal with OSC 8 hyperlink support: iTerm2, Ghostty, Kitty, WezTerm, VS Code/Cursor integrated terminal. **Terminal.app does not support OSC 8** — links won't be clickable there.
+- A terminal that makes `scheme:` URIs clickable — via OSC 8 hyperlinks or plain-text URI detection (cmd+click): iTerm2, Ghostty, Kitty, WezTerm, VS Code/Cursor integrated terminal. **Terminal.app and Warp are not supported**: Terminal.app lacks OSC 8, and Warp neither renders OSC 8 ([warpdotdev/Warp#4194](https://github.com/warpdotdev/Warp/issues/4194)) nor detects custom URI schemes in plain text.
 - `python3` on PATH. Linux also needs `wl-copy` (Wayland) or `xclip` (X11).
 
 ## Install
