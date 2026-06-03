@@ -20,7 +20,7 @@ APPLESCRIPT
 cp "$SCRIPT_DIR/grab_handler.py" "$APP/Contents/Resources/grab_handler.py"
 
 PLIST="$APP/Contents/Info.plist"
-/usr/libexec/PlistBuddy -c "Set :CFBundleIdentifier dev.alepee.grab-handler" "$PLIST"
+/usr/libexec/PlistBuddy -c "Add :CFBundleIdentifier string dev.alepee.grab-handler" "$PLIST"
 /usr/libexec/PlistBuddy -c "Add :CFBundleURLTypes array" "$PLIST"
 /usr/libexec/PlistBuddy -c "Add :CFBundleURLTypes:0 dict" "$PLIST"
 /usr/libexec/PlistBuddy -c "Add :CFBundleURLTypes:0:CFBundleURLName string GrabClipboard" "$PLIST"
@@ -28,6 +28,8 @@ PLIST="$APP/Contents/Info.plist"
 /usr/libexec/PlistBuddy -c "Add :CFBundleURLTypes:0:CFBundleURLSchemes:0 string grab" "$PLIST"
 
 "$LSREGISTER" -f "$APP"
+
+sleep 2
 
 echo "Installed $APP and registered the grab: scheme."
 echo "Self-test: opening grab:test%20ok — paste somewhere to verify the clipboard contains 'test ok'."
