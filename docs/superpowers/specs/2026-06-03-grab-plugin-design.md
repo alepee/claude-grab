@@ -27,12 +27,16 @@ Short, says what it does, near-zero collision risk with registered or common sch
 ```
 claude-copy-plugin/
 ├── .claude-plugin/plugin.json     # name: "grab"
-├── commands/setup.md              # exposed as /grab:setup
+├── commands/
+│   ├── setup.md                   # exposed as /grab:setup
+│   └── uninstall.md               # exposed as /grab:uninstall
 ├── hooks/hooks.json               # SessionStart hook declaration
 ├── scripts/
 │   ├── session-start.sh           # handler detection + instruction injection
 │   ├── install-macos.sh
-│   └── install-linux.sh
+│   ├── install-linux.sh
+│   ├── uninstall-macos.sh
+│   └── uninstall-linux.sh
 └── README.md                      # install, supported terminals, limitations
 ```
 
@@ -72,6 +76,21 @@ Markdown command instructing Claude to run the install script matching the curre
 - `xdg-mime default grab-handler.desktop x-scheme-handler/grab`.
 
 **Both scripts end with a self-test:** trigger `open "grab:test%20ok"` / `xdg-open "grab:test%20ok"`, then ask the user to paste and confirm the clipboard contains `test ok`.
+
+### 3b. `/grab:uninstall` command (`commands/uninstall.md`)
+
+Mirror of setup: runs the uninstall script matching the current OS. Removes everything the install created, nothing else.
+
+**macOS (`uninstall-macos.sh`):**
+- `lsregister -u` to unregister, then remove `~/Applications/GrabHandler.app`.
+- Remove `/tmp/grab/` if present.
+
+**Linux (`uninstall-linux.sh`):**
+- Remove `~/.local/share/applications/grab-handler.desktop`.
+- Drop the `x-scheme-handler/grab` entries from `~/.config/mimeapps.list`.
+- Remove `/tmp/grab/` if present.
+
+After uninstall, the SessionStart hook naturally falls back to the "handler not installed" hint (or stops entirely once the plugin is removed).
 
 ### 4. Payloads and file fallback
 
