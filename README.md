@@ -34,6 +34,8 @@ The handler decodes/reads and copies — it never executes anything. File mode r
 
 ## Known limitations
 
+**Honest scope: great for command lines, not for documents or code files.** Terminals cap the size of URIs they accept (empirically, Ghostty stops making links clickable somewhere between ~2 KB and ~5 KB of URI), and percent-encoding inflates real-world content by 1.5–3×. So anything beyond a few hundred characters has to go through the file fallback, which adds a bash round-trip per snippet and quickly becomes slower than just asking Claude to pipe the content to `pbcopy` itself. Use it for the thing it was born for — grabbing a command without fighting soft-wrap — and don't expect it to carry a draft document.
+
 - First click: iTerm2 / VS Code ask once to confirm opening an unknown URI scheme. Allow and remember.
-- Very long inline URIs can be truncated by some terminals — hence the file fallback threshold.
+- Inline URIs beyond the terminal's cap silently stop being clickable — hence the file fallback threshold.
 - `/tmp/grab/` files persist until reboot (so links survive re-clicks).
