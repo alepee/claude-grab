@@ -1,0 +1,8 @@
+{
+  "name": "grab",
+  "version": "0.1.0",
+  "description": "Click-to-copy 📋 links in Claude Code output via a custom grab: URI scheme",
+  "author": {
+    "name": "Antoine Lépée"
+  }
+}
