@@ -16,5 +16,4 @@ if command -v update-desktop-database >/dev/null 2>&1; then
   update-desktop-database "$APPS_DIR" || true
 fi
 
-rm -rf /tmp/grab
 echo "grab handler uninstalled."

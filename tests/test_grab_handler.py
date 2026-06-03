@@ -1,7 +1,6 @@
 """Tests for the grab: URI handler payload resolution."""
 import os
 import sys
-import tempfile
 import unittest
 import urllib.parse
 from unittest import mock
@@ -30,35 +29,9 @@ class ResolveInlineTest(unittest.TestCase):
         with self.assertRaises(ValueError):
             resolve_payload("copy:hello")
 
-
-class ResolveFileTest(unittest.TestCase):
-    # On macOS /tmp is a symlink to /private/tmp; the allowed-dir check works
-    # because realpath is applied to both the candidate path and the allowed dirs.
-    def setUp(self):
-        os.makedirs("/tmp/grab", exist_ok=True)
-
-    def test_reads_file_in_allowed_dir(self):
-        fd, path = tempfile.mkstemp(dir="/tmp/grab", suffix=".txt")
-        with os.fdopen(fd, "wb") as fh:
-            fh.write(b"big payload")
-        self.addCleanup(os.remove, path)
-        uri = "grab:file=" + urllib.parse.quote(path, safe="")
-        self.assertEqual(resolve_payload(uri), b"big payload")
-
-    def test_rejects_path_outside_allowed_dir(self):
-        uri = "grab:file=" + urllib.parse.quote("/etc/hosts", safe="")
-        with self.assertRaises(ValueError):
-            resolve_payload(uri)
-
-    def test_rejects_symlink_escaping_allowed_dir(self):
-        link = "/tmp/grab/escape-link"
-        if os.path.lexists(link):
-            os.remove(link)
-        os.symlink("/etc/hosts", link)
-        self.addCleanup(os.remove, link)
-        uri = "grab:file=" + urllib.parse.quote(link, safe="")
-        with self.assertRaises(ValueError):
-            resolve_payload(uri)
+    def test_legacy_file_payload_is_treated_as_plain_text(self):
+        # The file= mode was removed: such a payload is just inline content now.
+        self.assertEqual(resolve_payload("grab:file%3D%2Fetc%2Fhosts"), b"file=/etc/hosts")
 
 
 class MainTest(unittest.TestCase):

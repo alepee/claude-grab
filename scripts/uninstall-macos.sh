@@ -13,5 +13,4 @@ else
   echo "GrabHandler.app not found — nothing to remove."
 fi
 
-rm -rf /tmp/grab "${TMPDIR:-/tmp}/grab"
 echo "grab handler uninstalled."

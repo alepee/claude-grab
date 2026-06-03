@@ -10,4 +10,4 @@ Remove the `grab:` URI scheme handler installed by /grab:setup.
    - `Darwin` → `bash "${CLAUDE_PLUGIN_ROOT}/scripts/uninstall-macos.sh"`
    - `Linux` → `bash "${CLAUDE_PLUGIN_ROOT}/scripts/uninstall-linux.sh"`
    - anything else → tell the user only macOS and Linux are supported, stop.
-3. Confirm to the user that the handler and `/tmp/grab/` are gone, and that future sessions will fall back to the "handler not installed" hint until they run /grab:setup again (or disable the plugin).
+3. Confirm to the user that the handler is gone, and that future sessions will fall back to the "handler not installed" hint until they run /grab:setup again (or disable the plugin).
