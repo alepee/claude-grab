@@ -44,7 +44,7 @@ def resolve_payload(uri):
             raise ValueError(f"file payload outside allowed dirs: {path!r}")
         with open(path, "rb") as fh:
             return fh.read()
-    return urllib.parse.unquote(payload).encode()
+    return urllib.parse.unquote_to_bytes(payload)
 
 
 def clipboard_cmd():

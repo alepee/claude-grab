@@ -4,9 +4,10 @@ import sys
 import tempfile
 import unittest
 import urllib.parse
+from unittest import mock
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "scripts"))
-from grab_handler import resolve_payload
+from grab_handler import clipboard_cmd, main, resolve_payload
 
 
 class ResolveInlineTest(unittest.TestCase):
@@ -31,6 +32,8 @@ class ResolveInlineTest(unittest.TestCase):
 
 
 class ResolveFileTest(unittest.TestCase):
+    # On macOS /tmp is a symlink to /private/tmp; the allowed-dir check works
+    # because realpath is applied to both the candidate path and the allowed dirs.
     def setUp(self):
         os.makedirs("/tmp/grab", exist_ok=True)
 
@@ -56,6 +59,20 @@ class ResolveFileTest(unittest.TestCase):
         uri = "grab:file=" + urllib.parse.quote(link, safe="")
         with self.assertRaises(ValueError):
             resolve_payload(uri)
+
+
+class MainTest(unittest.TestCase):
+    def test_wrong_argc_returns_2(self):
+        self.assertEqual(main(["grab_handler.py"]), 2)
+
+
+class ClipboardCmdTest(unittest.TestCase):
+    def test_raises_when_no_clipboard_tool(self):
+        with mock.patch.object(sys, "platform", "linux"), \
+                mock.patch.dict(os.environ, {}, clear=True), \
+                mock.patch("grab_handler.shutil.which", return_value=None):
+            with self.assertRaises(RuntimeError):
+                clipboard_cmd()
 
 
 if __name__ == "__main__":
