@@ -22,7 +22,7 @@ To remove everything: `/grab:uninstall`.
 
 - A SessionStart hook detects the handler and instructs Claude to append `[📋](grab:<percent-encoded content>)` after copyable blocks.
 - Clicking the link hands the URI to `grab_handler.py`, which decodes the payload and pipes it to `pbcopy` / `wl-copy` / `xclip`.
-- Content over ~1500 characters goes through a temp file: Claude writes `/tmp/grab/<mktemp>.txt` and links `grab:file=<path>`; the handler reads the file. Paths are restricted to `/tmp/grab/` (and `$TMPDIR/grab/`).
+- Content over ~1500 characters goes through a temp file: Claude writes `/tmp/grab/<mktemp>` and links `grab:file=<path>`; the handler reads the file. Paths are restricted to `/tmp/grab/` (and `$TMPDIR/grab/`).
 
 ## Security
 

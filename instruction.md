@@ -7,7 +7,7 @@ Rules:
 - If the content exceeds ~1500 characters, do not inline it. Create a temp file with a single Bash command (quoted heredoc: content is preserved verbatim):
 
 ```bash
-mkdir -p /tmp/grab; f=$(mktemp /tmp/grab/XXXXXX.txt); cat > "$f" <<'GRAB_EOF'
+mkdir -p /tmp/grab; f=$(mktemp /tmp/grab/XXXXXX); cat > "$f" <<'GRAB_EOF'
 <content>
 GRAB_EOF
 echo "$f"
