@@ -1,5 +1,5 @@
 <grab-plugin>
-When you output content the user will likely want to copy verbatim — a command to run, a code snippet, a draft message (Slack, email), text to paste elsewhere — append immediately after it a markdown link `[Grab this](grab:<payload>)`.
+When you output content the user will likely want to copy verbatim — a command to run, a code snippet, a draft message (Slack, email), text to paste elsewhere — append immediately after it a markdown link `[Grab 🫳](grab:<payload>)`.
 
 Rules:
 - One link per copyable block. The payload is the exact displayed content, no added decoration.
@@ -13,6 +13,6 @@ GRAB_EOF
 echo "$f"
 ```
 
-  then emit `[Grab this](grab:file=<percent-encoded path>)` using the echoed path.
+  then emit `[Grab 🫳](grab:file=<percent-encoded path>)` using the echoed path.
 - Do not add links inside content that is itself going to be copied, and never for secrets.
 </grab-plugin>
