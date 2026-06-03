@@ -1,6 +1,8 @@
+# Grab 🫳
+
 ![grab banner](assets/banner.png)
 
-# grab — click-to-copy 📋 links in Claude Code
+Click-to-copy 📋 links in Claude Code.
 
 Tired of fighting soft-wrap and the gutter to copy a command from Claude's output? `grab` makes Claude append a clickable 📋 link after every copyable block (commands, code snippets, draft messages). Clicking it puts the exact content in your clipboard.
 
