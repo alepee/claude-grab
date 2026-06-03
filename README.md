@@ -7,7 +7,7 @@ Based on a hack by Guillaume Rams: OSC 8 hyperlinks + a custom `grab:` URI schem
 ## Requirements
 
 - macOS or Linux (Windows not supported).
-- A terminal that makes `scheme:` URIs clickable — via OSC 8 hyperlinks or plain-text URI detection (cmd+click): iTerm2, Ghostty, Kitty, WezTerm, VS Code/Cursor integrated terminal. **Terminal.app and Warp are not supported**: Terminal.app lacks OSC 8, and Warp neither renders OSC 8 ([warpdotdev/Warp#4194](https://github.com/warpdotdev/Warp/issues/4194)) nor detects custom URI schemes in plain text.
+- A terminal that makes `scheme:` URIs clickable — via OSC 8 hyperlinks or plain-text URI detection (cmd+click): iTerm2, Ghostty, Kitty, WezTerm, VS Code/Cursor integrated terminal. **Terminal.app and Warp are not supported**: Terminal.app lacks OSC 8, and Warp neither renders OSC 8 ([warpdotdev/Warp#4194](https://github.com/warpdotdev/Warp/issues/4194), fix underway in [#11885](https://github.com/warpdotdev/warp/pull/11885)) nor detects custom URI schemes in plain text. Note: Claude Code currently prints links as plain text rather than OSC 8 ([claude-code#13008](https://github.com/anthropics/claude-code/issues/13008)), so clickability relies on the terminal's plain-text URI detection — Warp will need both fixes before grab links work there.
 - `python3` on PATH. Linux also needs `wl-copy` (Wayland) or `xclip` (X11).
 
 ## Install
